@@ -15,12 +15,12 @@ import { Toaster } from "react-hot-toast";
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
   const { theme } = useThemeStore();
+  console.log("Online Users:", onlineUsers);
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  // Set the theme on the <html> tag for DaisyUI v5
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
