@@ -14,6 +14,7 @@ export const useAuthStore = create((set, get) => ({
   isCheckingAuth: true,
   onlineUsers: [],
   socket: null,
+  setAuthUser: (user) => set({ authUser: user }),
 
   checkAuth: async () => {
     try {
@@ -37,7 +38,7 @@ export const useAuthStore = create((set, get) => ({
       toast.success("Account created successfully");
       get().connectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || "Sign up failed");
     } finally {
       set({ isSigningUp: false });
     }
@@ -67,19 +68,25 @@ export const useAuthStore = create((set, get) => ({
       toast.success("Logged out successfully");
       get().disconnectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || "Failed to logout");
     }
   },
 
   updateProfile: async (data) => {
     set({ isUpdatingProfile: true });
     try {
-      const res = await axiosInstance.put("/auth/update-profile", data);
-      set({ authUser: res.data });
-      toast.success("Profile updated successfully");
+      const res = await axiosInstance.put("/users/me/avatar", data);
+      set((state) => ({
+        authUser: state.authUser
+          ? { ...state.authUser, profilePic: res.data.profilePic }
+          : state.authUser,
+      }));
+      toast.success("Profile photo updated");
     } catch (error) {
       console.log("error in update profile:", error);
-      toast.error(error.response.data.message);
+      toast.error(
+        error?.response?.data?.message || "Failed to update profile photo"
+      );
     } finally {
       set({ isUpdatingProfile: false });
     }

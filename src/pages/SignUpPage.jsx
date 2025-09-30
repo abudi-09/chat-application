@@ -22,8 +22,7 @@ const SignUpPage = () => {
     password: "",
   }); //
 
-  const { signup } = useAuthStore();
-  const [isSigningUp, setIsSigningUp] = useState(false);
+  const { signup, isSigningUp } = useAuthStore();
 
   const validateForm = () => {
     if (!formData.fullName.trim()) return toast.error("Full name is required");
