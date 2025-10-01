@@ -1,12 +1,48 @@
-# React + Vite
+# Chat-App Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This Vite + React client powers the Chat-App experience, including real-time messaging, profile management, and the new social post feed.
 
-Currently, two official plugins are available:
+## Getting started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```powershell
+# install dependencies
+npm install
 
-## Expanding the ESLint configuration
+# start the dev server (http://localhost:5173 by default)
+npm run dev
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# run lint checks
+npm run lint
+```
+
+## Key features
+
+- **Authentication** – Sign up, log in, and manage your profile photo.
+- **Messaging dashboard** – Responsive chat list, conversation view, and typing area.
+- **Post feed (`/posts`)**
+  - Post composer with media uploads (images & video, up to four attachments).
+  - Visibility controls (public, connections, private) and shortcut for quick share (`⌘/Ctrl` + `Enter`).
+  - Infinite feed with filter and sort controls (all, mine, connections, reposts; recent, liked, trending).
+  - Rich post cards with like, comment, repost, and view counters plus nested original content for reposts.
+  - Slide-in comment panel for threaded discussions with inline likes and live counts.
+
+## Adding posts & comments
+
+1. Navigate to **Posts** via the navbar (requires authentication).
+2. Compose text, optionally attach media, pick visibility, and click **Share**.
+3. Use the filter/sort controls to adjust the feed scope.
+4. Open comments from any post to reply or like individual comments.
+
+## Technology stack
+
+- [React 19](https://react.dev/) with [Zustand](https://zustand-demo.pmnd.rs/) for state management
+- [Vite](https://vitejs.dev/) for tooling and HMR
+- [Tailwind CSS](https://tailwindcss.com/) + [daisyUI](https://daisyui.com/) for styling
+- [lucide-react](https://lucide.dev/) icons
+- [axios](https://axios-http.com/) for API requests
+
+## Next steps
+
+- Expand media handling in comments (uploads & galleries).
+- Add integration tests for the post store and optimistic updates.
+- Surface channel-specific feeds once channel visibility posts are available in the UI.

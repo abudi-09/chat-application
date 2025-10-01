@@ -59,7 +59,7 @@ export const usePostStore = create((set, get) => ({
 
     const cursor = reset ? null : get().cursor;
 
-    set((state) => ({
+    set(() => ({
       isFetching: true,
       scope: nextScope,
       sort: nextSort,
@@ -75,10 +75,18 @@ export const usePostStore = create((set, get) => ({
         },
       });
 
-      const { data = [], nextCursor } = res.data || {};
+      const payload = res.data;
+      const posts = Array.isArray(payload)
+        ? payload
+        : Array.isArray(payload?.data)
+        ? payload.data
+        : [];
+      const nextCursor = Array.isArray(payload)
+        ? null
+        : payload?.nextCursor ?? null;
 
       set((state) => ({
-        feed: reset ? data : [...state.feed, ...data],
+        feed: reset ? posts : [...state.feed, ...posts],
         cursor: nextCursor,
         hasMore: Boolean(nextCursor),
       }));

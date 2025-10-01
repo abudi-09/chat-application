@@ -22,12 +22,14 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
+  const publicLinks = authUser ? [] : navLinks;
+  const brandDestination = authUser ? "/posts" : "/";
 
   return (
     <header className="fixed top-0 z-40 w-full border-b border-base-300 bg-base-100/90 backdrop-blur-lg">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link
-          to="/"
+          to={brandDestination}
           className="flex items-center gap-2.5 text-base-content transition hover:opacity-90"
           onClick={closeMenu}
         >
@@ -44,7 +46,7 @@ const Navbar = () => {
           className="hidden items-center gap-6 md:flex"
           aria-label="Main navigation"
         >
-          {navLinks.map(({ label, to }) => (
+          {publicLinks.map(({ label, to }) => (
             <NavLink
               key={label}
               to={to}
@@ -57,6 +59,18 @@ const Navbar = () => {
               {label}
             </NavLink>
           ))}
+          {authUser && (
+            <NavLink
+              to="/posts"
+              className={({ isActive }) =>
+                `text-sm font-medium transition hover:text-primary ${
+                  isActive ? "text-primary" : "text-base-content/70"
+                }`
+              }
+            >
+              Posts
+            </NavLink>
+          )}
           {authUser && (
             <NavLink
               to="/dashboard"
@@ -124,7 +138,7 @@ const Navbar = () => {
           aria-label="Mobile navigation"
         >
           <div className="container mx-auto flex flex-col gap-2 px-4 py-4 text-sm font-medium">
-            {navLinks.map(({ label, to }) => (
+            {publicLinks.map(({ label, to }) => (
               <NavLink
                 key={label}
                 to={to}
@@ -140,6 +154,21 @@ const Navbar = () => {
                 {label}
               </NavLink>
             ))}
+            {authUser && (
+              <NavLink
+                to="/posts"
+                className={({ isActive }) =>
+                  `rounded-lg px-3 py-2 transition ${
+                    isActive
+                      ? "bg-primary/10 text-primary"
+                      : "text-base-content/70 hover:bg-base-200"
+                  }`
+                }
+                onClick={closeMenu}
+              >
+                Posts
+              </NavLink>
+            )}
             {authUser && (
               <NavLink
                 to="/dashboard"

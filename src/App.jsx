@@ -8,6 +8,7 @@ import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import SettingsPage from "./pages/SettingsPage";
 import ProfilePage from "./pages/ProfilePage";
+import PostFeedPage from "./pages/PostFeedPage";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthStore } from "./store/useAuthStore";
 import { useThemeStore } from "./store/useThemeStore";
@@ -41,20 +42,29 @@ const App = () => {
       <Navbar />
 
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route
+          path="/"
+          element={authUser ? <Navigate to="/posts" /> : <HomePage />}
+        />
+        <Route
+          path="/about"
+          element={authUser ? <Navigate to="/posts" /> : <AboutPage />}
+        />
+        <Route
+          path="/privacy"
+          element={authUser ? <Navigate to="/posts" /> : <PrivacyPolicyPage />}
+        />
         <Route
           path="/dashboard"
           element={authUser ? <DashboardPage /> : <Navigate to="/login" />}
         />
         <Route
           path="/signup"
-          element={!authUser ? <SignUpPage /> : <Navigate to="/dashboard" />}
+          element={!authUser ? <SignUpPage /> : <Navigate to="/posts" />}
         />
         <Route
           path="/login"
-          element={!authUser ? <LoginPage /> : <Navigate to="/dashboard" />}
+          element={!authUser ? <LoginPage /> : <Navigate to="/posts" />}
         />
         <Route
           path="/settings"
@@ -63,6 +73,10 @@ const App = () => {
         <Route
           path="/profile"
           element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/posts"
+          element={authUser ? <PostFeedPage /> : <Navigate to="/login" />}
         />
       </Routes>
 
